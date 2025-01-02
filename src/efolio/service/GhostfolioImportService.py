@@ -1,4 +1,5 @@
 from typing import List
+from uuid import uuid4
 
 from efolio.entity.Trade import Trade
 from efolio.service.FilesystemService import FileSystemService
@@ -46,6 +47,7 @@ class GhostfolioImportService:
 
             for trade in activities[symbol]:
                 holding.add(Trade(
+                    trade_id=uuid4(),
                     symbol=symbol,
                     date=trade.get("date"),
                     trade_type=trade.get("trade_type"),

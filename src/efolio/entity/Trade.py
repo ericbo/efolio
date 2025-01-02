@@ -1,9 +1,11 @@
 from datetime import datetime
+from uuid import uuid4
 
 
 class Trade:
-    def __init__(self, symbol: str, date: str, trade_type: str, currency: str, unit_price: str, quantity: float,
+    def __init__(self, trade_id: uuid4, symbol: str, date: str, trade_type: str, currency: str, unit_price: str, quantity: float,
                  fee: float):
+        self.id = trade_id
         self.symbol = symbol
         self.date = date
         self.trade_type = trade_type

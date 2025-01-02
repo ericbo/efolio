@@ -17,7 +17,7 @@ class Holding:
     def get_number_of_trades(self) -> int:
         return len(self.trades)
 
-    def get_position(self):
+    def get_active_position(self):
         position = 0
         for trade in sorted(self.trades):
             if trade.trade_type not in ["BUY", "SELL"]:
@@ -32,32 +32,42 @@ class Holding:
 
         return position
 
+    def find_trade(self, trade_id: str) -> Trade:
+        for trade in self.trades:
+            if trade.id == trade_id:
+                return trade
+
+        raise RuntimeError(f"No trade with ID {trade_id} exists!")
+
+    def delete_trade(self, trade_id: str):
+        self.trades.remove(self.find_trade(trade_id))
+
     def __eq__(self, other):
         if isinstance(other, Holding):
-            return self.get_position() == other.get_position()
+            return self.get_active_position() == other.get_active_position()
         return NotImplemented
 
     def __gt__(self, other):
         if isinstance(other, Holding):
-            return self.get_position() > other.get_position()
+            return self.get_active_position() > other.get_active_position()
         return NotImplemented
 
     def __lt__(self, other):
         if isinstance(other, Holding):
-            return self.get_position() < other.get_position()
+            return self.get_active_position() < other.get_active_position()
         return NotImplemented
 
     def __ge__(self, other):
         if isinstance(other, Holding):
-            return self.get_position() >= other.get_position()
+            return self.get_active_position() >= other.get_active_position()
         return NotImplemented
 
     def __le__(self, other):
         if isinstance(other, Holding):
-            return self.get_position() <= other.get_position()
+            return self.get_active_position() <= other.get_active_position()
         return NotImplemented
 
     def __ne__(self, other):
         if isinstance(other, Holding):
-            return self.get_position() != other.get_position()
+            return self.get_active_position() != other.get_active_position()
         return NotImplemented
