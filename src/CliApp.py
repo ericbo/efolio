@@ -23,5 +23,5 @@ if __name__ == "__main__":
     account = Account(uuid4(), "All Accounts")
     holdings = parser.parse_json(file_path)
     account.add_holdings(holdings)
-    app = CliApp(account.get_rows())
+    app = CliApp(account)
     app.run()

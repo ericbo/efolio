@@ -13,16 +13,14 @@ class Account:
     def add_holdings(self, holdings: List[Holding]):
         self.holdings = self.holdings + holdings
 
-    def get_holdings(self) -> List[Holding]:
-        return self.holdings
+        self.holdings = sorted(self.holdings, reverse=True)
 
-    def get_rows(self):
-        rows = [("Symbol", "Number of Trades")]
-
+    def get_holding_by_symbol(self, symbol: str) -> Holding:
         for holding in self.holdings:
-            rows.append((holding.symbol, holding.number_of_trades()))
+            if holding.symbol == symbol:
+                return holding
 
-        return rows
+        raise RuntimeError(f"Failed to find any holdings of {symbol}")
 
     def __eq__(self, other):
         other: Account

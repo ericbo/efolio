@@ -55,4 +55,7 @@ class GhostfolioImportService:
                     fee=trade.get("fee")
                 ))
 
+        for holding in holdings:
+            holding.sort()
+
         return holdings
