@@ -11,7 +11,8 @@ class HoldingTable(DataTable):
         self.update_table()
 
     def update_table(self) -> None:
-        self.clear()
+        self.app.title = self.account.name
+        self.clear(columns=True)
         self.cursor_type = "row"
         self.zebra_stripes = True
         self.add_columns("Symbol", "Position")
@@ -21,5 +22,14 @@ class HoldingTable(DataTable):
                 continue
             self.add_row(holding.symbol, holding.get_active_position(), key=holding.symbol)
 
+    def on_screen_resume(self, event):
+        self.app.exit()
+
     def on_data_table_row_selected(self, event: DataTable.RowSelected):
-        self.app.push_screen(TradeScreen(self.account.get_holding_by_symbol(event.row_key.value)))
+        def update_screen(response: None) -> None:
+            self.update_table()
+
+        self.app.push_screen(
+            TradeScreen(self.account.get_holding_by_symbol(event.row_key.value)),
+            update_screen
+        )

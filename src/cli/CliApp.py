@@ -1,8 +1,6 @@
-from textual.app import App, ComposeResult
-from textual.events import Key
-from textual.widgets import Footer, Header
+from textual.app import App
 
-from cli.table.HoldingTable import HoldingTable
+from cli.screen.HoldingScreen import HoldingScreen
 from efolio.entity.Account import Account
 
 
@@ -11,11 +9,5 @@ class CliApp(App):
         self.account = account
         super().__init__()
 
-    def compose(self) -> ComposeResult:
-        yield Header()
-        yield Footer()
-        yield HoldingTable(self.account)
-
-    def on_key(self, event: Key):
-        if event.key == "escape":
-            self.app.exit()
+    def on_mount(self) -> None:
+        self.push_screen(HoldingScreen(self.account))
